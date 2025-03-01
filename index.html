@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head><title>Employee Management</title></head>
+<body>
+    <h1>Employees</h1>
+    <a href="javascript:void(0)" onclick="document.getElementById('addForm').style.display='block'">Add Employee</a>
+    <table border="1">
+        <tr><th>Name</th><th>Age</th><th>Salary</th><th>Actions</th></tr>
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.age }}</td>
+            <td>{{ employee.salary }}</td>
+            <td>
+                <a href="javascript:void(0)" onclick="editEmployee({{ employee.id }}, '{{ employee.name }}', {{ employee.age }}, {{ employee.salary }})">Edit</a>
+                <a href="{{ url_for('delete_employee', id=employee.id) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div id="addForm" style="display:none">
+        <h2>Add Employee</h2>
+        <form method="POST" action="{{ url_for('add_employee') }}">
+            <input type="text" name="name" placeholder="Name"><br>
+            <input type="number" name="age" placeholder="Age"><br>
+            <input type="text" name="salary" placeholder="Salary"><br>
+            <input type="number" name="department_id" placeholder="Department ID"><br>
+            <input type="email" name="email" placeholder="Email"><br>
+            <input type="date" name="hire_date" placeholder="Hire Date"><br>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div id="editForm" style="display:none">
+        <h2>Edit Employee</h2>
+        <form method="POST" id="editFormPost">
+            <input type="hidden" name="id" id="editId">
+            <input type="text" name="name" id="editName"><br>
+            <input type="number" name="age" id="editAge"><br>
+            <input type="text" name="salary" id="editSalary"><br>
+            <input type="number" name="department_id" id="editDepartment"><br>
+            <input type="email" name="email" id="editEmail"><br>
+            <input type="date" name="hire_date" id="editHireDate"><br>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <script>
+        function editEmployee(id, name, age, salary) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editName').value = name;
+            document.getElementById('editAge').value = age;
+            document.getElementById('editSalary').value = salary;
+            document.getElementById('editForm').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
